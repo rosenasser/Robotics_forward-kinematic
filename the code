@@ -1,0 +1,44 @@
+#include <Servo.h>
+const double pi = 3.14159267;
+double Q1,Q2;// input from the user
+double L1=10.0,L2=12.0;// the length of both arms 
+double x,y; // the output ( the arm location in x-y plane)
+void setup()
+{
+  Serial.begin(9600);
+  Servo motor1;
+  Servo motor2;
+  Serial.println(" enter Q1 ");// the fist angle from the user 
+  while(Serial.available()==0){}
+  Q1=Serial.parseInt();
+  Q1=radian(Q1);// convert it into radian 
+  Serial.println(" enter Q2 ");// the second angle from the user
+  while(Serial.available()==0){}
+  Q2=Serial.parseInt();
+  Q2=radian(Q2);// convert it into radian
+  x=L1*sin(Q1)+L2*sin(Q1+Q2);// calculat x
+  y=L1*cos(Q1)+L2*cos(Q1+Q2);// calculat y
+  Serial.println(" x= ");
+  Serial.println(x);
+  Serial.println(" y= ");
+  Serial.println(y);
+  Q1=degree(Q1);
+  Q2=degree(Q2);
+  motor1.attach(12);
+  motor2.attach(11);
+  motor1.write(Q1);
+  motor1.write(Q2);
+  
+}
+
+void loop()
+{
+  
+  
+}
+double radian(double degree) {
+  return degree / 360 * 2.0 * pi;
+}
+double degree(double radian) {
+  return radian / 2.0 / pi * 360;
+}
